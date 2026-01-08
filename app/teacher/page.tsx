@@ -1,16 +1,23 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { EngagementHeatmap } from "@/components/teacher/EngagementHeatmap"
+import { ConceptMastery } from "@/components/teacher/ConceptMastery"
+import { ProjectStatus } from "@/components/teacher/ProjectStatus"
 import { PollController } from "@/components/teacher/PollController"
+import { PerformanceOverview } from "@/components/teacher/PerformanceOverview"
 import { BridgeLogic } from "@/components/teacher/BridgeLogic"
 import { Clock, TrendingDown } from "lucide-react"
 
 export default function TeacherDashboard() {
   return (
-    <>
+    <div className="space-y-8 pt-12">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Classroom Overview</h1>
+        <div className="relative">
+           <div className="absolute -top-12 left-0 bg-[#E0F7FF] px-4 py-2 rounded-t-lg border-x border-t font-bold shadow-sm">
+             Teacher View
+           </div>
+           <h1 className="text-3xl font-bold tracking-tight uppercase">Class Overview</h1>
+        </div>
         <div className="flex gap-2">
            <span className="text-sm text-muted-foreground bg-card px-3 py-1 rounded-full shadow-sm border">
              CS 101 - Intro to Programming
@@ -18,9 +25,23 @@ export default function TeacherDashboard() {
         </div>
       </div>
 
-      {/* Metrics Row */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+      <div className="grid gap-6 lg:grid-cols-7">
+        {/* Left Side: Performance and Mastery */}
+        <div className="lg:col-span-3 space-y-6">
+          <PerformanceOverview />
+          <ConceptMastery />
+        </div>
+
+        {/* Right Side: Project Status and Poll */}
+        <div className="lg:col-span-4 space-y-6">
+          <ProjectStatus />
+          <PollController />
+        </div>
+      </div>
+
+      {/* Additional Metrics Row */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Time Saved</CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
@@ -32,7 +53,7 @@ export default function TeacherDashboard() {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Weakest Topic</CardTitle>
             <TrendingDown className="h-4 w-4 text-red-500" />
@@ -44,8 +65,7 @@ export default function TeacherDashboard() {
             </p>
           </CardContent>
         </Card>
-        {/* Placeholder Metrics */}
-        <Card>
+        <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Students</CardTitle>
             <svg
@@ -70,7 +90,7 @@ export default function TeacherDashboard() {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Engagement</CardTitle>
             <svg
@@ -95,24 +115,7 @@ export default function TeacherDashboard() {
         </Card>
       </div>
 
-      {/* Main Interactive Area */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
-        <PollController /> 
-        {/* Poll controller takes some space, but might need to be sized. 
-            Default in shadcn grid: col-span-x.
-            I'll wrap PollController in a div with col-span.
-            Actually, PollController returns a Card. I should wrap it or adjust.
-            Let's say PollController is col-span-3, Heatmap is col-span-4.
-        */}
-         <div className="col-span-4 md:col-span-3">
-             <PollController />
-         </div>
-         <div className="col-span-4">
-             <EngagementHeatmap />
-         </div>
-      </div>
-
       <BridgeLogic />
-    </>
+    </div>
   )
 }
